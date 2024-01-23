@@ -1,0 +1,89 @@
+Prolog
+1) Find the maximum of a list of numbers.
+
+max_list([X], X).
+max_list([H | T], Max) :-
+max_list(T, TMax),
+Max is max(H, TMax).
+Output:
+?- max_list([3, 7, 1, 9, 5], Max).
+% Output: Max = 9
+
+2) Empty List:
+Prolog
+is_empty([]).
+
+3) Union of Lists:
+
+union([], B, B).
+union([H | T], B, [H | U]) :- \+ member(H, B), union(T, B, U).
+union([H | T], B, U) :- member(H, B), union(T, B, U).
+
+ Output:-
+ ?- union([1,2,3,4],[5,6,7,8],X).
+X = [1, 2, 3, 4, 5, 6, 7, 8] 
+
+4) Linear Search:
+
+member(X, [X | _]).
+member(X, [_ | T]) :- member(X, T).
+
+5) Concat Lists:
+
+append([], B, B).
+append([H | T], B, [H | U]) :- append(T, B, U).
+
+6) Reverse List:
+
+reverse([], []).
+reverse([H | T], R) :- reverse(T, RT), append(RT, [H], R).
+
+7) Intersection of Lists:
+
+intersection([], _, []).
+intersection([H | T], B, [H | I]) :- member(H, B), intersection(T, B, I).
+intersection([_ | T], B, I) :- intersection(T, B, I).
+
+8) Insert Element:
+
+insert(X, Pos, [], [X]).
+insert(X, 1, [H | T], [X, H | T]).
+insert(X, Pos, [H | T], [H | R]) :- Pos > 1, Pos1 is Pos - 1, insert(X, Pos1, T, R).
+
+9) Delete Element:
+
+delete(_, 1, [_ | T], T).
+delete(X, Pos, [H | T], [H | R]) :- Pos > 1, Pos1 is Pos - 1, delete(X, Pos1, T, R).
+
+10) Check Prime:
+
+is_prime(N) :- N > 1, \+ (2 =< M, M =< sqrt(N), 0 is N mod M).
+
+11) Factorial:
+
+fact(0,1).
+fact(N,F):-N>0,M is N-1,fact(M,E),F is N*E.
+
+12) Fibonacci:
+
+fib(N,F):-N>2,N1 is N-1,N2 is N-2,fib(N1,F1),fib(N2,F2),F is F1+F2.
+fib(N,1):-N=<2,N>0.
+
+ 13) GCD:
+
+gcd(0, X, X).
+gcd(X, 0, X).
+gcd(X, Y, Z) :- X >= Y, X1 is X - Y, gcd(X1, Y, Z).
+gcd(X, Y, Z) :- X < Y, X1 is Y - X, gcd(X1, X, Z).
+
+14) GCD of list of numbers
+gcdl([X,Y|T],M):-gcd(X,Y,Z),gcdl([Z|T],M).
+gcdl([X],X).
+ Output:-?- gcdl([2,4,8,10,12],X).
+X = 2
+
+ 15)planidorm:
+ 
+palindrome(List) :-palindrome(List, [], List).
+palindrome([], Acc, _) :-reverse(Acc, List).
+palindrome([H | T], Acc, List) :-palindrome(T, [H | Acc], List).
